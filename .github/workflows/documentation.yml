@@ -17,6 +17,8 @@ jobs:
       - uses: julia-actions/setup-julia@v1
         with:
           version: '1.7'
+      - name: Install gnuplot
+        run: apt-get update && apt-get install -y gnuplot
       - name: Install dependencies
         run: julia --project=docs/ -e 'using Pkg; Pkg.develop(PackageSpec(path=pwd())); Pkg.instantiate()'
       - name: Build and deploy
