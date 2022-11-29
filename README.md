@@ -1,5 +1,20 @@
 # GnuplotLite.jl
-There currently are two bigger modules that interact with Gnuplot (`Gnuplot.jl` and `Gaston`). I don't like both of them, the reason being that they made the layering between Julia and Gnuplot too thick. When things don't work, I can't reason out why, even though I've used Gnuplot for over a decade. Even if `Gnuplot.jl` claims to be a thin wrapper, its code is over 2000 lines in a single file.
+Responsive, composable, no-nonsense interface to Gnuplot.
 
-All I need is a command to start a Gnuplot instance, and send commands and data:
+```julia
+using GnuplotLite
+
+gnuplot() do gp
+    gp |>
+        send("set term svg background 'white'") |>
+        send("set output 'sine.svg'") |>
+        send("plot sin(x)")
+end
+```
+
+Check out the [full documentation](https://jhidding.github.io/GnuplotLite.jl).
+
+## License
+Copyright 2022, Johan Hidding, Netherlands eScience Center
+Licensed under the Apache 2.0 license, see LICENSE.
 
