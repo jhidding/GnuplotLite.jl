@@ -44,7 +44,8 @@ Messages can be composed:
 using GnuplotLite
 
 setup(output) = 
-    send("set term svg background 'white'") *
+    send("set term svg background 'white' size 600,400 dynamic " *
+         "mouse standalone") *
     send("set output '$output'")
 
 gnuplot() do g
@@ -62,6 +63,8 @@ set pm3d lighting primary 0.5 specular 0.3
 set pm3d depthorder border lc 'black' lw 0.3
 set style fill solid 1.00 noborder
 set ticslevel 0
+set autoscale fix
+set tmargin 0
 unset colorbox
 """
 
@@ -71,9 +74,10 @@ z = sinc.(sqrt.(x.^2 .+ y'.^2))
 
 plot = setup("sinc3d.svg") *
     send(settings) *
+    send("set title 'radial sinc function'") *
     send("data" => (x=x, y=y, z=z)) *
     send("splot \$data nonuniform matrix " *
-         "using 1:2:3:(0xffad00) t'saddle' " *
+         "using 1:2:3:(0xffad00) t'' " *
          "with pm3d lc rgb variable")
 
 gnuplot() |> plot |> close
