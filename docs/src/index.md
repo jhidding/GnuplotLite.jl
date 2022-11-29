@@ -55,7 +55,7 @@ end
 
 ![](sine.svg)
 
-You may enter data into Gnuplot by sending `Pair`. This gets translated into an inline data definition.
+You may enter data into Gnuplot by sending a pair of string and $x, y, z$ data. This gets translated into an inline data definition.
 
 ```@example 1
 settings = """
