@@ -102,11 +102,11 @@ Returns a [`Msg`](@ref).
 function send(data::Pair{String,Matrix{T}}) where
     {T <: Number}
     function (g::Gnuplot)
-        init = send("\$$(data[1]) << EOD")
-        body = foldr(*, map(r -> send(join(string.(r), " ")),
-                            eachrow(data[2])))
-        close = send("EOD")
-        g |> init * body * close
+        g |> send("\$$(data[1]) << EOD")
+        for row in eachrow(data[2])
+            g |> send(join(string.(r), " "))
+        end
+        g |> send("EOD")
     end |> Msg
 end
 
@@ -133,12 +133,13 @@ function send(data::Pair{String,@NamedTuple{x::T,y::T,z::U}}) where
     {T <: AbstractVector{<:Real}, U <: AbstractMatrix{<:Real}}
     (k, (x, y, z)) = data
     function (g::Gnuplot)
-        init = send("\$$k << EOD")
-        x_axis = send("$(length(x)) $(join(string.(x), " "))")
-        body = foldr(*, (send("$y $(join(string.(row), " "))")
-                        for (y, row) in zip(y, eachrow(z))))
-        close = send("EOD")
-        g |> init * x_axis * body * close
+        g |> 
+            send("\$$k << EOD") |>
+            send("$(length(x)) $(join(string.(x), " "))")
+        for (y, row) in zip(y, eachrow(z))
+            g |> send("$y $(join(string.(row), " "))")
+        end
+        g |> send("EOD")
     end |> Msg
 end
 
