@@ -104,7 +104,7 @@ function send(data::Pair{String,Matrix{T}}) where
     function (g::Gnuplot)
         g |> send("\$$(data[1]) << EOD")
         for row in eachrow(data[2])
-            g |> send(join(string.(r), " "))
+            g |> send(join(string.(row), " "))
         end
         g |> send("EOD")
     end |> Msg
