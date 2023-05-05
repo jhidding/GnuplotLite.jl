@@ -99,8 +99,8 @@ documentation for uniform matrices.
 
 Returns a [`Msg`](@ref).
 """
-function send(data::Pair{String,AbstractMatrix{T}}) where
-    {T <: Number}
+function send(data::Pair{String,M}) where
+    {T <: Number, M <: AbstractMatrix{T}}
     function (g::Gnuplot)
         g |> send("\$$(data[1]) << EOD")
         for row in eachrow(data[2])
