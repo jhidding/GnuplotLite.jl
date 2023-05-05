@@ -151,7 +151,7 @@ into a plot by running it with Gnuplot from the command line, or run a
 `pipeline` from Julia.
 """
 function save(path::String)
-    channel = Channel() do channel
+    channel = Channel{String}() do channel
         open(path, "w") do output
             for line in channel
                 write(output, line * "\n")
