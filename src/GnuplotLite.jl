@@ -1,6 +1,6 @@
 module GnuplotLite
 
-export gnuplot, send, save
+export Gnuplot, gnuplot, send, save
 
 """     struct Gnuplot
 
