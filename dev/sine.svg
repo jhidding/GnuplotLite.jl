@@ -6,7 +6,7 @@
 >
 
 <title>Gnuplot</title>
-<desc>Produced by GNUPLOT 5.4 patchlevel 2 </desc>
+<desc>Produced by GNUPLOT 6.0 patchlevel 0 </desc>
 
 <script type="text/javascript" > <![CDATA[
 // From:	Marko Karjalainen <markokarjalainen@kolumbus.fi>
@@ -100,7 +100,10 @@ gnuplot_svg = function (svgElement) {
     var parseSettings = function () {
         var script = svgElement.querySelectorAll('script');
         if (script && script[1]) {
-            var scriptText = script[1].firstChild.nodeValue;
+            // Chrome may break the original CDATA section into more than 1
+            // continous sections witch will lead to failure if we dont
+            // combine them back into 1
+            var scriptText = script[1].innerHTML.replaceAll("<![CDATA[", "").replaceAll("]]>", "")
             // Remove inline comments
             scriptText = scriptText.replace(/^\s*\/\/.*\n/g, '');
             // Change prefix to "
@@ -1038,7 +1041,7 @@ gnuplot_svg.plot_logaxis_y = 0;
 gnuplot_svg.plot_timeaxis_x = "";
 gnuplot_svg.plot_timeaxis_y = "";
 gnuplot_svg.hypertext_fontSize = 0;
-gnuplot_svg.hypertext_fontName = null;
+gnuplot_svg.hypertext_fontFamily = null;
 gnuplot_svg.hypertext_fontStyle = null;
 gnuplot_svg.hypertext_fontWeight = null;
 ]]>
