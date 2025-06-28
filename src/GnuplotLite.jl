@@ -27,11 +27,11 @@ This wraps the actions that are created using the different variants of the
 Messages can be composed (unlike `∘`, going left to right) using the `*`
 operator.
 """
-struct Msg
-    action :: Function
+struct Msg{F}
+    action :: F
 end
 
-(a::Msg)(g::Gnuplot) = a.action(g)
+(a::Msg{F})(g::Gnuplot) where {F} = a.action(g)
 Base.:*(a::Msg, b::Msg) = Msg(b.action ∘ a.action)
 
 """
@@ -72,7 +72,7 @@ Variant of the `gnuplot` constructor for use with `do` syntax. Makes sure to
 close the channel (and thereby) the process.
 """
 function gnuplot(f::Function; kwargs...)
-    g = gnuplot(kwargs...)
+    g = gnuplot(;kwargs...)
     f(g)
     close(g.channel)
 end
